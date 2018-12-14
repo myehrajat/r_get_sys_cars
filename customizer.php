@@ -46,7 +46,7 @@ function RentIt_Get_Sys_Cars_available_car($wp_customize){
 
 	$tmp_settingname = $tmp_sectionname . '_future_return_date';
 
-    $wp_customize->add_setting($tmp_settingname, array('default' => NULL,
+    $wp_customize->add_setting($tmp_settingname, array('default' => 7,
         'sanitize_callback' => 'wp_kses_post'));
 
     $wp_customize->add_control($tmp_settingname . '_control', array(
