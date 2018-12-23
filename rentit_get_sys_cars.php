@@ -41,12 +41,12 @@ if ( is_plugin_active( 'rentit_date_changer/rentit_date_changer.php' ) ) {
 		 if(isset($_GET['jalali_start_date'])){
 			 $start_date = $_GET['jalali_start_date'];
 		 }else{
-
+			 echo 'jalali_start_date is not set';
 		 }
-		 if(!isset($_GET['jalali_end_date']) ){
+		 if(isset($_GET['jalali_end_date']) ){
 			 $start_date = $_GET['jalali_end_date'];
 		 }else{
-
+			 echo 'jalali_end_date is not set';
 		 }
 		static $sys_mojoodi;
 		static $start_date;
