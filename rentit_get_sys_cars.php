@@ -38,35 +38,36 @@ if ( is_plugin_active( 'rentit_date_changer/rentit_date_changer.php' ) ) {
 
 	function RentIt_Get_Sys_Cars_get_cars( $post_id) {
 
-		 if(isset($_GET['jalali_start_date'])){
-			 $start_date = $_GET['jalali_start_date'];
-		 }else{
-			 echo 'jalali_start_date is not set';
-		 }
-		 if(isset($_GET['jalali_end_date']) ){
-			 $start_date = $_GET['jalali_end_date'];
-		 }else{
-			 echo 'jalali_end_date is not set';
-		 }
 		static $sys_mojoodi;
 		static $start_date;
 		static $end_date;
 		static $end_date;
 		static $error_message;
-
-		$sys_id = get_post_meta( $post_id, '_rentit_sys_car_id',true  );
+		//var_dump( $post_id);
+		 if(isset($_GET['jalali_start_date'])){
+			 $start_date = $_GET['jalali_start_date'];
+		 }else{
+			// echo 'jalali_start_date is not set';
+		 }
+		 if(isset($_GET['jalali_end_date']) ){
+			 $start_date = $_GET['jalali_end_date'];
+		 }else{
+			// echo 'jalali_end_date is not set';
+		 }		$sys_id = get_post_meta( $post_id, '_rentit_sys_car_id',true  );
 
 		if ( !$sys_mojoodi ) {
 			$file_get_contents = @ file_get_contents( get_theme_mod( 'available_car_url', 'https://sys.ejarehkhodro.com/wp-content/plugins/jqwidget-custom/json.php' ).'?list=mojoodi&start=' . urlencode( $start_date ) . '&end=' . urlencode($end_date) . '&min=0&max=99999999999999&vo='.get_theme_mod( 'available_car_future_return_date', 7 ).'&psw='.get_theme_mod( 'available_car_password', 'TBT RENTAL SYS PASS' ).'&rawdata=raw' );
-			//var_dump($file_get_contents);
+
 			if($file_get_contents){
 				$sys_mojoodi = json_decode($file_get_contents);
 				foreach ( $sys_mojoodi as $mojoodi ) {
 					$formatted_mojoodi[ $mojoodi->id ] = $mojoodi;
 				}
 				$sys_mojoodi = $formatted_mojoodi;
-				//var_dump($formatted_mojoodi);
-				//die;
+			}
+		}
+		if($sys_mojoodi){
+				//var_dump($sys_id);
 				if($sys_id){
 					if ( array_key_exists( $sys_id, $sys_mojoodi ) ) {
 						return $sys_mojoodi[ $sys_id ];
@@ -95,7 +96,7 @@ if ( is_plugin_active( 'rentit_date_changer/rentit_date_changer.php' ) ) {
 		*/
 	//var_dump($sys_id);
 
-	}
+	
 }else{
 	add_action( 'admin_init', 'RentIt_Get_Sys_Cars_notice' );
 	function RentIt_Get_Sys_Cars_notice(){
